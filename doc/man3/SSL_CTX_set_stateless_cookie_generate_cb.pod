@@ -23,7 +23,7 @@ SSL_CTX_set_stateless_cookie_verify_cb
 
 =head1 DESCRIPTION
 
-SSL_CTX_set_cookie_generate_cb() sets the callback used by L<SSL_stateless(3)>
+SSL_CTX_set_stateless_cookie_generate_cb() sets the callback used by L<SSL_stateless(3)>
 to generate the application-controlled portion of the cookie provided to clients
 in the HelloRetryRequest transmitted as a response to a ClientHello with a
 missing or invalid cookie. gen_stateless_cookie_cb() must write at most
@@ -31,9 +31,9 @@ SSL_COOKIE_LENGTH bytes into B<cookie>, and must write the number of bytes
 written to B<cookie_len>. If a cookie cannot be generated, a zero return value
 can be used to abort the handshake.
 
-SSL_CTX_set_cookie_verify_cb() sets the callback used by L<SSL_stateless(3)> to
+SSL_CTX_set_stateless_cookie_verify_cb() sets the callback used by L<SSL_stateless(3)> to
 determine whether the application-controlled portion of a ClientHello cookie is
-valid. A nonzero return value from app_verify_cookie_cb() communicates that the
+valid. A nonzero return value from verify_stateless_cookie_cb() communicates that the
 cookie is valid. The integrity of the entire cookie, including the
 application-controlled portion, is automatically verified by HMAC before
 verify_stateless_cookie_cb() is called.
@@ -42,9 +42,15 @@ verify_stateless_cookie_cb() is called.
 
 Neither function returns a value.
 
+=head1 HISTORY
+
+Legacy setter methods SSL_CTX_set_cookie_generate_cb() and SSL_CTX_set_cookie_verify_cb()
+are still available for current applications who want support both TLS1.2 with stateful
+cookies and TLS1.3 with stateless cookies.
+
 =head1 SEE ALSO
 
-L<SSL_stateless(3)>
+L<SSL_stateless(3)> L<SSL_CTX_set_cookie_generate_cb(3)>
 
 =head1 COPYRIGHT
 
